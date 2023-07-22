@@ -10,6 +10,7 @@ def_reg_class! {
         reg,
         freg,
         breg,
+        qreg,
     }
 }
 
@@ -42,6 +43,7 @@ impl XtensaInlineAsmRegClass {
             Self::reg => types! { _: I8, I16, I32; },
             Self::breg => types! { bool: I1; },
             Self::freg => types! { fp: F32; dfpaccel: F64; },
+            Self::qreg => types! { esp32s3: VecI8(16), VecI16(8), VecI32(4), VecF32(4); },
         }
     }
 }
@@ -85,6 +87,7 @@ feature!(has_interrupt, sym::interrupt);
 feature!(has_prid, sym::prid);
 feature!(has_miscsr, sym::miscsr);
 feature!(has_threadptr, sym::threadptr);
+feature!(has_esp32s3, sym::esp32s3);
 
 fn has_expstate(
     _arch: InlineAsmArch,
@@ -276,7 +279,36 @@ def_regs! {
         // Custom TIE extensions - https://en.wikipedia.org/wiki/Tensilica_Instruction_Extension
         gpio_out: reg = ["gpio_out"] % has_gpio_out,
         expstate: reg = ["expstate"] % has_expstate,
-        
+
+        // ESP32S3 specific TIE extensions
+        q0: qreg = ["q0"] % has_esp32s3,
+        q1: qreg = ["q1"] % has_esp32s3,
+        q2: qreg = ["q2"] % has_esp32s3,
+        q3: qreg = ["q3"] % has_esp32s3,
+        q4: qreg = ["q4"] % has_esp32s3,
+        q5: qreg = ["q5"] % has_esp32s3,
+        q6: qreg = ["q6"] % has_esp32s3,
+        q7: qreg = ["q7"] % has_esp32s3,
+
+        accx_0: reg = ["accx_0"] % has_esp32s3,
+        accx_1: reg = ["accx_1"] % has_esp32s3,
+        qacc_h_0: reg = ["qacc_h_0"] % has_esp32s3,
+        qacc_h_1: reg = ["qacc_h_1"] % has_esp32s3,
+        qacc_h_2: reg = ["qacc_h_2"] % has_esp32s3,
+        qacc_h_3: reg = ["qacc_h_3"] % has_esp32s3,
+        qacc_h_4: reg = ["qacc_h_4"] % has_esp32s3,
+        qacc_l_0: reg = ["qacc_l_0"] % has_esp32s3,
+        qacc_l_1: reg = ["qacc_l_1"] % has_esp32s3,
+        qacc_l_2: reg = ["qacc_l_2"] % has_esp32s3,
+        qacc_l_3: reg = ["qacc_l_3"] % has_esp32s3,
+        qacc_l_4: reg = ["qacc_l_4"] % has_esp32s3,
+        fft_bit_width: reg = ["fft_bit_width"] % has_esp32s3,
+        sar_byte: reg = ["sar_byte"] % has_esp32s3,
+        ua_state_0: reg = ["ua_state_0"] % has_esp32s3,
+        ua_state_1: reg = ["ua_state_1"] % has_esp32s3,
+        ua_state_2: reg = ["ua_state_2"] % has_esp32s3,
+        ua_state_3: reg = ["ua_state_3"] % has_esp32s3,
+
         #error = ["a0"] => "a0 is used internally by LLVM and cannot be used as an operand for inline asm",
         #error = ["sp", "a1"] => "sp is used internally by LLVM and cannot be used as an operand for inline asm",
     }

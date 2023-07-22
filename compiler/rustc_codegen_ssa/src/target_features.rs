@@ -319,6 +319,9 @@ const XTENSA_ALLOWED_FEATURES: &[(&str, Option<Symbol>)] = &[
     ("prid", Some(sym::xtensa_target_feature)),
     ("regprotect", Some(sym::xtensa_target_feature)),
     ("miscsr", Some(sym::xtensa_target_feature)),
+    ("esp32s3", Some(sym::xtensa_target_feature)),
+    ("minmax", Some(sym::xtensa_target_feature)),
+    ("clamps", Some(sym::xtensa_target_feature)),
 ];
 
 const BPF_ALLOWED_FEATURES: &[(&str, Option<Symbol>)] = &[("alu32", Some(sym::bpf_target_feature))];

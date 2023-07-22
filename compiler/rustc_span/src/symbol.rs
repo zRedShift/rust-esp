@@ -679,6 +679,7 @@ symbols! {
         eprintln_macro,
         eq,
         ermsb_target_feature,
+        esp32s3,
         exact_div,
         except,
         exception,

@@ -684,6 +684,7 @@ fn reg_to_llvm(reg: InlineAsmRegOrRegClass, layout: Option<&TyAndLayout<'_>>) ->
             InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::reg) => "r",
             InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::freg) => "f",
             InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::breg) => "b",
+            InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::qreg) => "q",
             InlineAsmRegClass::Bpf(BpfInlineAsmRegClass::reg) => "r",
             InlineAsmRegClass::Bpf(BpfInlineAsmRegClass::wreg) => "w",
             InlineAsmRegClass::Avr(AvrInlineAsmRegClass::reg) => "r",
@@ -718,7 +719,11 @@ fn modifier_to_llvm(
         InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::reg) => modifier,
         InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::vreg)
         | InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::vreg_low16) => {
-            if modifier == Some('v') { None } else { modifier }
+            if modifier == Some('v') {
+                None
+            } else {
+                modifier
+            }
         }
         InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::preg) => {
             unreachable!("clobber-only")
@@ -863,6 +868,9 @@ fn dummy_output_type<'ll>(cx: &CodegenCx<'ll, '_>, reg: InlineAsmRegClass) -> &'
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::reg) => cx.type_i32(),
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::freg) => cx.type_f32(),
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::breg) => cx.type_i1(),
+        InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::qreg) => {
+            cx.type_vector(cx.type_i32(), 4)
+        }
         InlineAsmRegClass::Bpf(BpfInlineAsmRegClass::reg) => cx.type_i64(),
         InlineAsmRegClass::Bpf(BpfInlineAsmRegClass::wreg) => cx.type_i32(),
         InlineAsmRegClass::Avr(AvrInlineAsmRegClass::reg) => cx.type_i8(),

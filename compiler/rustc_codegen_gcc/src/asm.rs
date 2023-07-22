@@ -641,6 +641,7 @@ fn reg_to_gcc(reg: InlineAsmRegOrRegClass) -> ConstraintOrRegister {
             InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::reg) => unimplemented!(),
             InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::freg) => unimplemented!(),
             InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::breg) => unimplemented!(),
+            InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::qreg) => unimplemented!(),
             InlineAsmRegClass::Err => unreachable!(),
         }
     };
@@ -713,6 +714,7 @@ fn dummy_output_type<'gcc, 'tcx>(cx: &CodegenCx<'gcc, 'tcx>, reg: InlineAsmRegCl
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::reg) => cx.type_i32(),
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::freg) => cx.type_f32(),
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::breg) => cx.type_i8(), // FIXME: should this be i1?
+        InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::qreg) => unimplemented!(),
         InlineAsmRegClass::Err => unreachable!(),
     }
 }
@@ -873,6 +875,7 @@ fn modifier_to_gcc(arch: InlineAsmArch, reg: InlineAsmRegClass, modifier: Option
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::reg) => unimplemented!(),
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::freg) => unimplemented!(),
         InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::breg) => unimplemented!(),
+        InlineAsmRegClass::Xtensa(XtensaInlineAsmRegClass::qreg) => unimplemented!(),
         InlineAsmRegClass::Err => unreachable!(),
     }
 }
